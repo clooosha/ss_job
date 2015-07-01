@@ -35,13 +35,14 @@ HtmlWriter::~HtmlWriter() {
 int HtmlWriter::addLine(string * ptrLine) {
     if (mCountLineSent !=0) {
         //Если предложение не пустое,добавляем переход на новую строку
-        mSentence +="\n";
+        mSentence += "<br/>";
+        mSentence += "\n";
     }
     //Ищем с конца строки точку, для нахождения конца предложения
     unsigned int pos = ptrLine->find_last_of('.');
     if (pos != string::npos) {
         //Добавляем конец предложения
-        mSentence +=string(ptrLine->c_str(), pos + 1);
+        mSentence +=string(ptrLine->c_str(), pos + 1) ;
         mCountLineSent++;
         //Записываем в файл
         if (writeSentence() !=0)

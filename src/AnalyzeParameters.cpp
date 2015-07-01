@@ -44,7 +44,7 @@ AnalyzeParameters::AnalyzeParameters(int argc, const char* argv[])
 int AnalyzeParameters::readMap(const char* path) {
     ifstream in(path);
     if (!in) {
-        std::cout << "Невозможно открыть файл " << path;
+        //std::cout << "Невозможно открыть файл " << path;
         throw AnalyzeParametersException("-dict", "Невозможно открыть файл.\n");
         return -1;
     }

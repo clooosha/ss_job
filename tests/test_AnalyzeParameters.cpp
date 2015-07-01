@@ -1,37 +1,29 @@
-#include <QtTest/QTest>
 #include "../src/AnalyzeParameters.h"
-#include <QDebug>
 #include <iostream>
 #include <fstream>
 #include <vector>
-#include <QFile>
+#include <gtest/gtest.h>
 
-class Test_AnalyzeParameters : public QObject {
-    Q_OBJECT
-private slots:
-    void initTestCase();
-    void cleanupTestCase();
-    void normParameters();
-    void badParamN_1();
-    void badParamN_2();
+class TestAnalyzeParameters: public ::testing::Test
+{
+protected:
+    void SetUp()
+    {
+        ofstream out("dict.txt");
+        if (!out) {
+            cout << "Error open." << endl;
+            return;
+        }
+        out << "текст1" << endl << "текст2" << endl << "текст1" << endl;
+        out.close();
+    }
+    void TearDown()
+    {
+        remove("dict.txt");
+    }
 };
 
-void Test_AnalyzeParameters::initTestCase() {
-    ofstream out("dict.txt");
-    if (!out) {
-        cout << "Error open." << endl;
-        return;
-    }
-    out << "текст1" << endl << "текст2" << endl << "текст1" << endl;
-    out.close();
-}
-
-void Test_AnalyzeParameters::cleanupTestCase() {
-    QFile file("dict.txt");
-    file.remove();
-}
-
-void Test_AnalyzeParameters::normParameters() {
+TEST_F(TestAnalyzeParameters,normParameters) {
     const char* argv[]= {"test", "-n", "10", "-f", "file.txt", "-dict", "dict.txt"};
     vector<string> dict;
     dict.push_back("текст1");
@@ -40,34 +32,31 @@ void Test_AnalyzeParameters::normParameters() {
 
     try {
         AnalyzeParameters param(argc, argv);
-        QCOMPARE(10, param.getMaxLine());
-        QCOMPARE(string("file.txt") , param.getFile());
-        QVERIFY(dict == *param.getDict());
+        ASSERT_EQ(10, param.getMaxLine());
+        ASSERT_EQ(string("file.txt") , param.getFile());
+        ASSERT_EQ(dict , *param.getDict());
     } catch (AnalyzeParametersException e){
         cout << e.strErr;
-        QVERIFY(false);
+        ASSERT_TRUE(false);
     }
 }
 
-void Test_AnalyzeParameters::badParamN_1() {
+TEST_F(TestAnalyzeParameters, badParam_N_bad) {
     const char* argv[]= {"test", "-n", "b10", "-f", "file.txt", "-dict", "dict.txt"};
     int argc = 7;
     try {
         AnalyzeParameters param(argc, argv);
-    } catch (AnalyzeParametersException e){
-        QVERIFY(true);
+    } catch (AnalyzeParametersException e) {
+        ASSERT_TRUE(true);
     }
-}
+};
 
-void Test_AnalyzeParameters::badParamN_2() {
+TEST_F(TestAnalyzeParameters, badParam_N_negative) {
     const char* argv[]= {"test", "-n", "-10", "-f", "file.txt", "-dict", "dict.txt"};
     int argc = 7;
     try {
         AnalyzeParameters param(argc, argv);
     } catch (AnalyzeParametersException e){
-        QVERIFY(true);
+        ASSERT_TRUE(true);
     }
 }
-
-QTEST_APPLESS_MAIN(Test_AnalyzeParameters)
-#include "test_AnalyzeParameters.moc"
