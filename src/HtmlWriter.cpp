@@ -9,7 +9,7 @@ using namespace std;
 HtmlWriter::HtmlWriter(string path)
 {
     //Вычисляем имя файла без расширения
-    unsigned int pos = path.find_last_of('.');
+    unsigned long int pos = path.find_last_of('.');
     if (pos != string::npos) {
         mPath = string(path.c_str(), pos);
     }
@@ -39,7 +39,7 @@ int HtmlWriter::addLine(string * ptrLine) {
         mSentence += "\n";
     }
     //Ищем с конца строки точку, для нахождения конца предложения
-    unsigned int pos = ptrLine->find_last_of('.');
+    unsigned long int pos = ptrLine->find_last_of('.');
     if (pos != string::npos) {
         //Добавляем конец предложения
         mSentence +=string(ptrLine->c_str(), pos + 1) ;
@@ -76,8 +76,8 @@ int HtmlWriter::writeSentence() {
         else
             path = mPath + ".html";
 
-        curOut = new ofstream(path.c_str());
-        if (!curOut) {
+        curOut.reset(new ofstream(path.c_str()));
+        if (!curOut.get()) {
             cout << "Ошибка создания файла. " << path << endl;
             return -1;
         }

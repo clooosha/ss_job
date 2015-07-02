@@ -7,6 +7,7 @@
 #ifndef HTMLWRITER_H
 #define HTMLWRITER_H
 #include <string>
+#include <tr1/memory>
 
 using namespace std;
 
@@ -46,7 +47,7 @@ private:
     //Строка, в к-ой хранятся предложения
     string mSentence;
     //Файл вывода
-    ofstream * curOut;
+    auto_ptr<ofstream> curOut;
     int writeSentence();
     //Заголовок html-страницы
     string html_begin;

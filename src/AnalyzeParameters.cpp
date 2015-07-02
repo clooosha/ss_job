@@ -24,7 +24,7 @@ AnalyzeParameters::AnalyzeParameters(int argc, const char* argv[])
             }
             else
                 throw AnalyzeParametersException(argv[i]);
-        } else if (!strcmp(argv[i], "-dict")) {
+        } else if (!strcmp(argv[i], "-d")) {
             if (i+1 < argc) {
                 readMap(argv[i+1]);
             }
@@ -38,14 +38,14 @@ AnalyzeParameters::AnalyzeParameters(int argc, const char* argv[])
     if (mOut.length() == 0)
         throw AnalyzeParametersException("-f", "Нет в списке переданных параметров.\n");
     if (mDict.size() == 0)
-        throw AnalyzeParametersException("-dict", "Нет в списке переданных параметров.\n");
+        throw AnalyzeParametersException("-d", "Нет в списке переданных параметров.\n");
 }
 
 int AnalyzeParameters::readMap(const char* path) {
     ifstream in(path);
     if (!in) {
         //std::cout << "Невозможно открыть файл " << path;
-        throw AnalyzeParametersException("-dict", "Невозможно открыть файл.\n");
+        throw AnalyzeParametersException("-d", "Невозможно открыть файл.\n");
         return -1;
     }
 

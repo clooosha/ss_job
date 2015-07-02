@@ -1,2 +1,2 @@
 #!/bin/bash
-./ss_job -f file_2.txt -dict dict_2.txt
+./ss_job -f file_2.txt -d dict_2.txt

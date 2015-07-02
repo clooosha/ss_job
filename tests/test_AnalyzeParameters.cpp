@@ -24,7 +24,7 @@ protected:
 };
 
 TEST_F(TestAnalyzeParameters,normParameters) {
-    const char* argv[]= {"test", "-n", "10", "-f", "file.txt", "-dict", "dict.txt"};
+    const char* argv[]= {"test", "-n", "10", "-f", "file.txt", "-d", "dict.txt"};
     vector<string> dict;
     dict.push_back("текст1");
     dict.push_back("текст2");
@@ -42,7 +42,7 @@ TEST_F(TestAnalyzeParameters,normParameters) {
 }
 
 TEST_F(TestAnalyzeParameters, badParam_N_bad) {
-    const char* argv[]= {"test", "-n", "b10", "-f", "file.txt", "-dict", "dict.txt"};
+    const char* argv[]= {"test", "-n", "b10", "-f", "file.txt", "-d", "dict.txt"};
     int argc = 7;
     try {
         AnalyzeParameters param(argc, argv);
@@ -52,7 +52,7 @@ TEST_F(TestAnalyzeParameters, badParam_N_bad) {
 };
 
 TEST_F(TestAnalyzeParameters, badParam_N_negative) {
-    const char* argv[]= {"test", "-n", "-10", "-f", "file.txt", "-dict", "dict.txt"};
+    const char* argv[]= {"test", "-n", "-10", "-f", "file.txt", "-d", "dict.txt"};
     int argc = 7;
     try {
         AnalyzeParameters param(argc, argv);
